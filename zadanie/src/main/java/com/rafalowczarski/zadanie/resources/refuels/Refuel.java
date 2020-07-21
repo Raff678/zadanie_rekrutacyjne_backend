@@ -17,6 +17,7 @@ public class Refuel {
 	private Integer fuelAmount;
 	private Double unitPrice;
 	private Integer meterStatus;
+	private String driverName;
 	
 	public long getId() {
 		return id;
@@ -53,6 +54,12 @@ public class Refuel {
 	}
 	public void setMeterStatus(Integer meterStatus) {
 		this.meterStatus = meterStatus;
+	}
+	public String getDriverName() {
+		return driverName;
+	}
+	public void setDriverName(String driverName) {
+		this.driverName = driverName;
 	}
 	
 }
