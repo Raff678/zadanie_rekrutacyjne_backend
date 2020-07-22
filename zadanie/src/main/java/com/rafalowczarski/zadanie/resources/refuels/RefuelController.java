@@ -2,7 +2,10 @@ package com.rafalowczarski.zadanie.resources.refuels;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,37 +16,61 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class RefuelController {
-	
+import lombok.RequiredArgsConstructor;
 
-	@Autowired
-	RefuelService refuelService;
+@RestController	
+@RequiredArgsConstructor
+class RefuelController {
+	
+	
+	private final RefuelService refuelService;
 
 	@GetMapping("/refuels")
-	private List<Refuel> getAllRefuels() {
-		return refuelService.getAllRefuels();
+	public ResponseEntity<List<Refuel>> getAllRefuels() {
+		List<Refuel> refuels = refuelService.getAllRefuels();
+		
+		if (refuels == null || refuels.isEmpty()) {
+			return new ResponseEntity<List<Refuel>>(HttpStatus.NO_CONTENT);
+		}
+		
+		return new ResponseEntity<List<Refuel>>(refuels, HttpStatus.OK);
 	}
 
 	@GetMapping("/refuels/{id}")
-	private Refuel getRefuel(@PathVariable long id) {
-		return refuelService.findRefuel(id);
+	public ResponseEntity<Refuel> getRefuel(@PathVariable @NotNull Long id) {
+		Refuel refuel = refuelService.findRefuel(id);
+		if (refuel == null) {
+			return new ResponseEntity<Refuel>(HttpStatus.NO_CONTENT);
+		}
+		
+		return new ResponseEntity<Refuel>(refuel, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/refuels/{id}")
-	private void deleteRefuel(@PathVariable long id) {
+	public void deleteRefuel(@PathVariable @NotNull Long id) {
 		refuelService.deleteRefuelById(id);
 	}
 	
 
 	@PostMapping("/refuels")
-	private ResponseEntity<Object> createRefuel(@RequestBody Refuel refuel) {
-		return refuelService.createRefuel(refuel);
+	public ResponseEntity<Refuel> createRefuel(@RequestBody @NotNull Refuel refuel) {
+		Refuel savedRefuel =  refuelService.createRefuel(refuel);
+		
+		if (savedRefuel == null) {
+			return new ResponseEntity<Refuel>(HttpStatus.NO_CONTENT);
+		}
+		
+		return new ResponseEntity<Refuel>(savedRefuel, HttpStatus.OK);
 	}
 	
 	@PutMapping("/refuels/{id}")
-	private ResponseEntity<Object> updateRefuel(@RequestBody Refuel refuel, @PathVariable long id) {
+	public ResponseEntity<Refuel> updateRefuel(@RequestBody @NotNull Refuel refuel, @PathVariable @NotNull Long id) {
+		Refuel updatedRefuel = refuelService.updateRefuel(refuel, id);
 
-		return refuelService.updateRefuel(refuel, id);
+		if(updatedRefuel==null) {
+			return new ResponseEntity<Refuel>(HttpStatus.NO_CONTENT);
+		}
+
+		return new ResponseEntity<Refuel>(updatedRefuel, HttpStatus.OK);
 	}
 }
