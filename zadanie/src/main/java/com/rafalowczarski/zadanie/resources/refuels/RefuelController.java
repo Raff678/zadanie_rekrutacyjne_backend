@@ -20,12 +20,13 @@ import lombok.RequiredArgsConstructor;
 
 @RestController	
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 class RefuelController {
 	
 	
 	private final RefuelService refuelService;
 
-	@GetMapping("/refuels")
+	@GetMapping("api/refuels")
 	public ResponseEntity<List<Refuel>> getAllRefuels() {
 		List<Refuel> refuels = refuelService.getAllRefuels();
 		
@@ -36,7 +37,7 @@ class RefuelController {
 		return new ResponseEntity<List<Refuel>>(refuels, HttpStatus.OK);
 	}
 
-	@GetMapping("/refuels/{id}")
+	@GetMapping("api/refuels/{id}")
 	public ResponseEntity<Refuel> getRefuel(@PathVariable @NotNull Long id) {
 		Refuel refuel = refuelService.findRefuel(id);
 		if (refuel == null) {
@@ -46,13 +47,14 @@ class RefuelController {
 		return new ResponseEntity<Refuel>(refuel, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/refuels/{id}")
-	public void deleteRefuel(@PathVariable @NotNull Long id) {
+	@DeleteMapping("api/refuels/{id}")
+	public ResponseEntity deleteRefuel(@PathVariable @NotNull Long id) {
 		refuelService.deleteRefuelById(id);
+		return ResponseEntity.noContent().build();
 	}
 	
 
-	@PostMapping("/refuels")
+	@PostMapping("api/refuels")
 	public ResponseEntity<Refuel> createRefuel(@RequestBody @NotNull Refuel refuel) {
 		Refuel savedRefuel =  refuelService.createRefuel(refuel);
 		
@@ -63,7 +65,7 @@ class RefuelController {
 		return new ResponseEntity<Refuel>(savedRefuel, HttpStatus.OK);
 	}
 	
-	@PutMapping("/refuels/{id}")
+	@PutMapping("api/refuels/{id}")
 	public ResponseEntity<Refuel> updateRefuel(@RequestBody @NotNull Refuel refuel, @PathVariable @NotNull Long id) {
 		Refuel updatedRefuel = refuelService.updateRefuel(refuel, id);
 
