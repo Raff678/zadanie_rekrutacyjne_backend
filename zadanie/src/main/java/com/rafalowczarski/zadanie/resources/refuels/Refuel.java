@@ -2,7 +2,6 @@ package com.rafalowczarski.zadanie.resources.refuels;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,16 +22,15 @@ class Refuel implements Serializable{
 	@Id
 	@GeneratedValue
 	private Long id;
-	
 	@NotNull(message = "Date can't be empty")
 	private String date;
 	@NotNull(message = "Fuel type must be chosen")
 	private FuelTypes fuelType;
 	@NotNull(message = "Fuel can't be empty")
-	private Integer fuelAmount;
+	private Double fuelAmount;
 	@NotNull(message = "Price can't be empty")
 	private Double unitPrice;
 	@NotNull(message = "Meter can't be empty")
-	private Integer meterStatus;
+	private Double meterStatus;
 	private String driverName;
 }
