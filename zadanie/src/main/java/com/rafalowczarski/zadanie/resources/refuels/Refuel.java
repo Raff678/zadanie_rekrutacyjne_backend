@@ -1,58 +1,36 @@
 package com.rafalowczarski.zadanie.resources.refuels;
 
-import javax.persistence.Column;
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-public class Refuel {
-	
+@Table(name = "REFUELS")
+@Getter
+@Setter	
+class Refuel implements Serializable{
+    
+	private static final long serialVersionUID = -5539448798311012547L;
+
 	@Id
 	@GeneratedValue
-	private long id;
-	
+	private Long id;
+	@NotNull(message = "Date can't be empty")
 	private String date;
+	@NotNull(message = "Fuel type must be chosen")
 	private FuelTypes fuelType;
-	private Integer fuelAmount;
+	@NotNull(message = "Fuel can't be empty")
+	private Double fuelAmount;
+	@NotNull(message = "Price can't be empty")
 	private Double unitPrice;
-	private Integer meterStatus;
-	
-	public long getId() {
-		return id;
-	}
-	private void setId(long id) {
-		this.id = id;
-	}
-	public String getDate() {
-		return date;
-	}
-	public void setDate(String date) {
-		this.date = date;
-	}
-	public FuelTypes getFuelType() {
-		return fuelType;
-	}
-	public void setFuelType(FuelTypes fuelType) {
-		this.fuelType = fuelType;
-	}
-	public Integer getFuelAmount() {
-		return fuelAmount;
-	}
-	public void setFuelAmount(Integer fuelAmount) {
-		this.fuelAmount = fuelAmount;
-	}
-	public Double getUnitPrice() {
-		return unitPrice;
-	}
-	public void setUnitPrice(Double unitPrice) {
-		this.unitPrice = unitPrice;
-	}
-	public Integer getMeterStatus() {
-		return meterStatus;
-	}
-	public void setMeterStatus(Integer meterStatus) {
-		this.meterStatus = meterStatus;
-	}
-	
+	@NotNull(message = "Meter can't be empty")
+	private Double meterStatus;
+	private String driverName;
 }
